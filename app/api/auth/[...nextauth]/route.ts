@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { prisma } from "@/lib/prisma";
+// import { prisma } from "@/lib/prisma";
 import * as bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
@@ -13,33 +13,8 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          if (!credentials?.email || !credentials?.password) {
-            throw new Error("Email и пароль обязательны");
-          }
-
-          const user = await prisma.user.findUnique({
-            where: { email: credentials.email },
-          });
-
-          if (!user) {
-            throw new Error("Неверный email или пароль");
-          }
-
-          const isPasswordValid = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
-
-          if (!isPasswordValid) {
-            throw new Error("Неверный email или пароль");
-          }
-
-          return {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            role: user.role,
-          };
+          // Временно отключаем аутентификацию через базу данных
+          return null;
         } catch (error) {
           console.error("Authorization error:", error);
           return null;

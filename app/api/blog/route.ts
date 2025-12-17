@@ -1,22 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+// import { prisma } from '@/lib/prisma';
 
 // GET - Получить все опубликованные статьи блога
 export async function GET(request: NextRequest) {
   try {
-    const searchParams = request.nextUrl.searchParams;
-    const published = searchParams.get('published');
-    const category = searchParams.get('category');
-
-    const where: any = published === 'false' ? {} : { published: true };
-    if (category) {
-      where.category = category;
-    }
-
-    const blogs = await prisma.blog.findMany({
-      where,
-      orderBy: { publishedAt: 'desc' },
-    });
+    // Временно возвращаем пустой массив
+    const blogs: any[] = [];
 
     return NextResponse.json(blogs);
   } catch (error) {
@@ -31,26 +20,11 @@ export async function GET(request: NextRequest) {
 // POST - Создать статью (только для админа)
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { title, titleKz, content, contentKz, excerpt, excerptKz, image, author, category, published } = body;
-
-    const blog = await prisma.blog.create({
-      data: {
-        title,
-        titleKz,
-        content,
-        contentKz,
-        excerpt,
-        excerptKz,
-        image,
-        author,
-        category,
-        published: published || false,
-        publishedAt: published ? new Date() : null,
-      },
-    });
-
-    return NextResponse.json(blog, { status: 201 });
+    // Временно возвращаем заглушку
+    return NextResponse.json(
+      { message: 'Blog creation temporarily disabled' },
+      { status: 501 }
+    );
   } catch (error) {
     console.error('Error creating blog:', error);
     return NextResponse.json(

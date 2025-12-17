@@ -26,8 +26,10 @@ export default function NewsSection() {
   const { t, language } = useLanguage();
   const [news, setNews] = useState<News[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     fetchNews();
   }, []);
 
@@ -43,6 +45,37 @@ export default function NewsSection() {
     }
   };
 
+  // Показываем loading до завершения клиентской гидрации
+  if (!isClient) {
+    return (
+      <div className="container mx-auto px-4 py-8 pl-14 sm:px-6 md:pl-8 lg:px-8">
+        <div className="mx-auto max-w-6xl space-y-8">
+          <div>
+            <div className="h-8 bg-gray-200 rounded w-1/2 mb-4 animate-pulse"></div>
+            <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <Card key={i}>
+                <div className="aspect-video bg-gray-200 animate-pulse"></div>
+                <CardHeader>
+                  <div className="h-4 bg-gray-200 rounded w-1/3 mb-2 animate-pulse"></div>
+                  <div className="h-6 bg-gray-200 rounded w-full animate-pulse"></div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 rounded w-2/3 animate-pulse"></div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 pl-14 sm:px-6 md:pl-8 lg:px-8">
       <div className="mx-auto max-w-6xl space-y-8">
@@ -54,8 +87,22 @@ export default function NewsSection() {
         </div>
 
         {loading ? (
-          <div className="text-center py-12">
-            <p className="text-lg">Загрузка новостей...</p>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <Card key={i}>
+                <div className="aspect-video bg-gray-200 animate-pulse"></div>
+                <CardHeader>
+                  <div className="h-4 bg-gray-200 rounded w-1/3 mb-2 animate-pulse"></div>
+                  <div className="h-6 bg-gray-200 rounded w-full animate-pulse"></div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 rounded w-2/3 animate-pulse"></div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         ) : news.length === 0 ? (
           <Card>
@@ -73,6 +120,7 @@ export default function NewsSection() {
                       src={item.image}
                       alt={language === "kz" ? item.titleKz : item.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover transition-transform hover:scale-105"
                       unoptimized
                     />
@@ -82,15 +130,15 @@ export default function NewsSection() {
                   <div className="mb-2 flex items-center gap-2 text-sm text-muted-foreground">
                     <Calendar className="h-4 w-4" />
                     <span>
-                      {item.publishedAt
-                        ? new Date(item.publishedAt).toLocaleDateString(
-                            language === "kz" ? "kk-KZ" : "ru-RU",
-                            { day: "numeric", month: "long", year: "numeric" }
-                          )
-                        : new Date(item.createdAt).toLocaleDateString(
-                            language === "kz" ? "kk-KZ" : "ru-RU",
-                            { day: "numeric", month: "long", year: "numeric" }
-                          )}
+                      {(() => {
+                        const date = item.publishedAt ? new Date(item.publishedAt) : new Date(item.createdAt);
+                        // Используем простой формат для избежания hydration mismatch
+                        return date.toLocaleDateString("ru-RU", {
+                          day: "2-digit",
+                          month: "2-digit", 
+                          year: "numeric"
+                        });
+                      })()}
                     </span>
                   </div>
                   <CardTitle className="text-lg md:text-xl">

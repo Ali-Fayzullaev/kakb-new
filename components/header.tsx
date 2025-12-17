@@ -27,6 +27,7 @@ export default function Header() {
                 src="/logo.png"
                 alt="КАКБ"
                 fill
+                sizes="(max-width: 768px) 128px, 256px"
                 className="object-contain"
                 priority
               />

@@ -1,0 +1,29 @@
+services:
+  kakb-website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kakb-website
+    env_file:
+      - production.env
+    ports:
+      - "127.0.0.1:3000:3000"
+    restart: unless-stopped
+    networks:
+      - kakb-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+networks:
+  kakb-network:
+    driver: bridge
+    enable_ipv6: true
+    driver_opts:
+      com.docker.network.enable_ipv6: "true"
+    enable_ipv6: true
+    driver_opts:
+      com.docker.network.enable_ipv6: "true"

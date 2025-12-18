@@ -21,18 +21,16 @@ export default function Header() {
       <div className="w-full max-w-[100vw] mx-0">
         <div className="relative flex h-24 items-center">
           {/* Logo - Positioned with slight right offset */}
-          <Link href="/" className="absolute left-0 top-1/2 -translate-y-1/2 ml-4 sm:ml-8 md:ml-12">
-            <div className="relative h-20 w-32 md:h-24 md:w-64">
-              <Image
-                src="/logo.png"
-                alt="КАКБ"
-                fill
-                sizes="(max-width: 768px) 128px, 256px"
-                className="object-contain"
-                priority
-              />
-            </div>
-          </Link>
+         <Link href="/" className="absolute left-0 top-1/2 -translate-y-1/2 ml-4 sm:ml-8 md:ml-12">
+  <div className="relative h-20 w-32 md:h-24 md:w-64">
+    {/* Исправленный Image */}
+    <img
+      src="/logo.png"
+      alt="КАКБ"
+      className="object-contain w-full h-full"
+    />
+  </div>
+</Link>
 
           {/* Mission Statement - Centered */}
           <div className="w-full flex justify-center items-start pt-0">

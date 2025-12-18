@@ -13,11 +13,11 @@ export default function Footer() {
           <div className="space-y-4">
             <Link href="/" className="inline-block">
               <div className="relative h-20 w-40">
-                <Image
+                {/* Исправленный Image */}
+                <img
                   src="/logo.png"
                   alt="КАКБ"
-                  fill
-                  className="object-contain"
+                  className="object-contain w-full h-full"
                 />
               </div>
             </Link>
@@ -83,7 +83,7 @@ export default function Footer() {
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                   </svg>
                 </a>
                 <span className="text-sm text-zinc-400">
@@ -92,9 +92,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center space-x-2">
                 <Phone className="h-5 w-5 shrink-0 text-accent" />
-                <span className="text-sm text-zinc-400">
-                  +7 700 300 11 91
-                </span>
+                <span className="text-sm text-zinc-400">+7 700 300 11 91</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="h-5 w-5 shrink-0 text-accent" />
